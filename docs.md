@@ -1,9 +1,9 @@
 # IdeaApe Enterprise API
 
-# Read v1
-`POST /enterprise/analysis/v1/read`
+# Read Analysis
+POST `/enterprise/analysis/read`
 
-This endpoint is used to read the analysis results for a given analysis ID. It requires an API key for authorization.
+This endpoint is used to read the analysis results for a given analysis ID. It requires an API key and an Enterprise-API-key for authorization.
 
 ## Expected Input
 The expected input is a JSON object with the following properties:
@@ -11,33 +11,36 @@ The expected input is a JSON object with the following properties:
 - `api_key`: A string that represents the API key of the enterprise user.
 - `analysis_id`: A string that represents the ID of the analysis to be read.
 
-Example:
-```json
+### Sample Input
+```javascript
 {
-  "api_key": "your_api_key",
-  "analysis_id": "your_analysis_id"
+  "analysis_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "api_key": "string"
 }
 ```
 
 ## Expected Output
-- The expected output is a SearchResultV1 object.
-
+- The expected output is a `SearchResult` objeect.
 - If the API key is not found in the database, a 403 Unauthorized user error will be returned.
-
 - If the analysis ID is not found, a 404 Analysis not found error will be returned.
 
+### Sample Request 
+> Make sure to add `enterprise-security-key` in the headers along with api_key in the request body.
 
-## Sample Request
-Here is a sample request using JavaScript's fetch API:
-```
-const response = await fetch('BACKENDURL/enterprise/analysis/v1/read', {
+**JavaScript**
+```javascript
+const response = await fetch('http://localhost:8000/enterprise/analysis/create', {
     method: 'POST',
     headers: {
+        'Accept': 'application/json',
+        'enterprise-api-key': ENTERPRISE_SECURITY_KEY,
         'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-        api_key: 'your_api_key',
-        analysis_id: 'your_analysis_id'
+        search_query: 'pineapple pizza',
+        country: 'un',
+        date_filter: 'all',
+        api_key: API_KEY
     })
 });
 
@@ -45,31 +48,393 @@ const data = await response.json();
 console.log(data);
 ```
 
-### Sample response
+**curl**
+```curl
+curl -X 'POST' \
+  'http://localhost:8000/enterprise/analysis/create' \
+  -H 'accept: application/json' \
+  -H 'enterprise-api-key: ENTERPRISE_SECURITY_KEY' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "search_query": "pineapple pizza",
+  "country": "un",
+  "date_filter": "all",
+  "api_key": API_KEY
+}'
 ```
+
+### Sample Response
+```javascript
 {
-    "id": "de15ec27-a928-40ed-bd54-ba5de34d0448",
-    "user_id": "string",
-    "title": "string - all time",
-    "query": "string site:reddit.com inurl:comments",
-    "posts": [
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "title": "string",
+  "created_at": "2024-04-20T12:47:14.069Z",
+  "sentiment_positive": 0,
+  "sentiment_negative": 0,
+  "sentiment_neutral": 0,
+  "posts": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "title": "string",
+      "description": "string",
+      "url": "string",
+      "search_result_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "sentiment": "positive"
+    }
+  ],
+  "analyses": [
+    {
+      "persona": {
+        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "persona_text": "string",
+        "post_ids": [
+          "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+        ],
+        "llm": "gpt4",
+        "icon_id": "string",
+        "search_result_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+      },
+      "painpoints": [
         {
-            "title": "Evaluate(string) - comments, ideas please! : r/AutoHotkey - Reddit",
-            "description": "As part of my self-education on AHK2, I've written a beginner's script to evaluate a string. I think it works, but I would be grateful for ...",
-            "url": "https://www.reddit.com/r/AutoHotkey/comments/1axwe33/evaluatestring_comments_ideas_please/"
-        },
-        ...
-        {
-            "title": "Are there easier options for string handling? : r/cpp_questions - Reddit",
-            "description": "Any less involved options for working with strings in C++?. Edit, thank you u/neiltechnician ! https://www.reddit.com/r/cpp_questions/comments/ ...",
-            "url": "https://www.reddit.com/r/cpp_questions/comments/15a9q59/are_there_easier_options_for_string_handling/"
+          "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "painpoint_text": "string",
+          "post_ids": [
+            "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+          ],
+          "llm": "gpt4",
+          "persona_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
         }
-    ],
-    "opportunities_text": "### Programming Beginners Learning String Manipulation\n- **Business Opportunity:** Development of an interactive learning platform focused on string manipulation.\n  - **Why:** This platform could offer step-by-step tutorials, real-time feedback, and challenges tailored to beginners. By focusing on common pain points like understanding syntax and choosing the right string methods, the platform would provide a guided learning path that builds confidence and skills in an area that many beginners find challenging.\n\n### Developers Seeking Feedback on String-Related Projects\n- **Business Opportunity:** Creation of a code review and mentorship platform with a focus on string manipulation and other programming fundamentals.\n  ...",
-    "pain_points_text": "### Programming Beginners Learning String Manipulation\n- **Painpoint 1:** Struggling with the basics of string manipulation, such as understanding how to use quotes within strings, leading to confusion and syntax errors.\n- ...,
-    "recommended_queries_opportunities": [],
-    "recommended_queries_pain_points": [],
-    "llm": "gpt4",
-    "created_at": "2024-04-19T13:17:59.494086Z"
+      ],
+      "summary": {
+        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "summary_text": "string",
+        "bulleted_list": [
+          "string"
+        ],
+        "llm": "gpt4"
+      }
+    }
+  ],
+  "icons": [
+    {
+      "id": "string",
+      "name": "string",
+      "content": "string"
+    }
+  ]
+}
+```
+
+
+---
+---
+
+# Create Analysis
+POST `/enterprise/analysis/create`
+
+This endpoint is used to create a new analysis based on a given search query, country, and date filter. It requires an API key and an Enterprise-API-key for authorization.
+
+## Expected Input
+The expected input is a JSON object with the following properties:
+
+- `search_query`: A string that represents the search query for the analysis.
+- `country`: A string that represents the country filter for the analysis. It should be one of the values defined in the `CountriesLiteral` enum.
+- `date_filter`: A string that represents the date filter for the analysis. It should be one of the values defined in the `DateFilterLiteral` enum.
+- `api_key`: A string that represents the API key of the enterprise user.
+
+### Sample Input
+```javascript
+{
+  "search_query": "pineapple pizza",
+  "country": "un",
+  "date_filter": "all",
+  "api_key": "your_api_key_here"
+}
+```
+
+## Expected Output
+- The expected output is a SearchResult object.
+- If the API key is not found in the database, a 403 Unauthorized user error will be returned.
+
+### Sample Request
+> Make sure to add `enterprise-security-key` in the headers along with `api_key` in the request body.
+
+**JavaScript**
+```javascript
+const response = await fetch('http://localhost:8000/enterprise/analysis/create', {
+    method: 'POST',
+    headers: {
+        'Accept': 'application/json',
+        'enterprise-api-key': ENTERPRISE_SECURITY_KEY,
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        search_query: 'pineapple pizza',
+        country: 'un',
+        date_filter: 'all',
+        api_key: API_KEY
+    })
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+**curl**
+```curl
+curl -X 'POST' \
+  'http://localhost:8000/enterprise/analysis/create' \
+  -H 'accept: application/json' \
+  -H 'enterprise-api-key: ENTERPRISE_SECURITY_KEY' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "search_query": "pineapple pizza",
+  "country": "un",
+  "date_filter": "all",
+  "api_key": API_KEY
+}'
+```
+
+### Sample Response
+```javascript
+{
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "title": "string",
+  "created_at": "2024-04-20T12:47:14.069Z",
+  "sentiment_positive": 0,
+  "sentiment_negative": 0,
+  "sentiment_neutral": 0,
+  "posts": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "title": "string",
+      "description": "string",
+      "url": "string",
+      "search_result_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "sentiment": "positive"
+    }
+  ],
+  "analyses": [
+    {
+      "persona": {
+        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "persona_text": "string",
+        "post_ids": [
+          "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+        ],
+        "llm": "gpt4",
+        "icon_id": "string",
+        "search_result_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+      },
+      "painpoints": [
+        {
+          "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "painpoint_text": "string",
+          "post_ids": [
+            "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+          ],
+          "llm": "gpt4",
+          "persona_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+        }
+      ],
+      "summary": {
+        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "summary_text": "string",
+        "bulleted_list": [
+          "string"
+        ],
+        "llm": "gpt4"
+      }
+    }
+  ],
+  "icons": [
+    {
+      "id": "string",
+      "name": "string",
+      "content": "string"
+    }
+  ]
+}
+```
+
+---
+---
+
+# Historical Searches
+POST `/enterprise/analysis/historical_searches`
+
+This endpoint is used to retrieve the historical searches performed within a specified date range. It requires an API key and an Enterprise-API-key for authorization.
+
+## Expected Input
+The expected input is a JSON object with the following properties:
+
+- `api_key`: A string that represents the API key of the enterprise user.
+- `start_date`: A string that represents the start date of the date range in ISO 8601 format (e.g., "2023-01-01T00:00:00Z").
+- `end_date`: A string that represents the end date of the date range in ISO 8601 format (e.g., "2023-12-31T23:59:59Z").
+
+### Sample Input
+```javascript
+{
+  "api_key": "your_api_key_here",
+  "start_date": "2023-01-01T00:00:00Z",
+  "end_date": "2023-12-31T23:59:59Z"
+}
+```
+
+## Expected Output
+- The expected output is an array of `SearchResultHistoryOutput` objects.
+- Each `SearchResultHistoryOutput` object contains the following properties:
+  - `id`: A UUID that represents the unique identifier of the search result.
+  - `title`: A string that represents the title of the search result.
+  - `created_at`: A string that represents the creation date and time of the search result in ISO 8601 format.
+  - `version`: A string that represents the version of the search result. It should be one of the values defined in the VersionsLiteral enum.
+- If the API key is not found in the database, a 403 Unauthorized user error will be returned.
+
+### Sample Request
+> Make sure to add enterprise-security-key in the headers along with api_key in the request body.
+
+**JavaScript**
+```javascript
+const response = await fetch('http://localhost:8000/enterprise/analysis/historical_searches', {
+    method: 'POST',
+    headers: {
+        'Accept': 'application/json',
+        'enterprise-api-key': ENTERPRISE_SECURITY_KEY,
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        api_key: API_KEY,
+        start_date: "2023-01-01T00:00:00Z",
+        end_date: "2023-12-31T23:59:59Z"
+    })
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+**curl**
+```curl
+curl -X 'POST' \
+  'http://localhost:8000/enterprise/analysis/historical_searches' \
+  -H 'accept: application/json' \
+  -H 'enterprise-api-key: ENTERPRISE_SECURITY_KEY' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "api_key": API_KEY,
+  "start_date": "2023-01-01T00:00:00Z",
+  "end_date": "2023-12-31T23:59:59Z"
+}'
+```
+
+### Sample Response
+```javascript
+[
+  {
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "title": "string",
+    "created_at": "2023-05-01T10:30:00Z",
+    "version": "v1"
+  },
+  {
+    "id": "2e8a6ac8-1234-5678-90ab-cdef01234567",
+    "title": "another string",
+    "created_at": "2023-07-15T18:45:30Z",
+    "version": "v2"
+  }
+]
+```
+
+
+# User Data (API credits remaining and other details )
+POST `/enterprise/user_data`
+
+This endpoint is used to retrieve the user data associated with the provided API key. It requires an API key and an Enterprise-API-key for authorization.
+
+## Expected Input
+The expected input is a JSON object with the following property:
+
+- 'api_key': A string that represents the API key of the enterprise user.
+
+### Sample Input
+```javascript
+{
+  "api_key": "your_api_key_here"
+}
+```
+
+## Expected Output
+- The expected output is an `EnterpriseUserData` object.
+- The `EnterpriseUserData` object contains the following properties:
+  - `plans`: An array of `PlansStatus` objects representing the plans associated with the user.
+    - Each `PlansStatus` object contains the following properties:
+      - `plan_name`: A string representing the name of the plan.
+      - `subscription_id`: A string representing the unique identifier of the subscription.
+      - `credits_total`: An integer representing the total number of credits allocated to the plan.
+      - `credits_used`: An integer representing the number of credits used in the plan.
+      - `created_at`: A string representing the creation date and time of the plan in ISO 8601 format.
+      - `expires_at`: A string representing the expiration date and time of the plan in ISO 8601 format.
+  - `searches_allowed` : An integer representing the total number of searches allowed for the user.
+  - `searches_used`: An integer representing the number of searches used by the user.
+  - `searches_remaining`: An integer representing the number of searches remaining for the user.
+- If the API key is not found in the database, a 403 Unauthorized user error will be returned.
+
+### Sample Request
+> Make sure to add enterprise-security-key in the headers along with api_key in the request body.
+
+**JavaScript**
+```javascript
+const response = await fetch('http://localhost:8000/enterprise/user_data', {
+    method: 'POST',
+    headers: {
+        'Accept': 'application/json',
+        'enterprise-api-key': ENTERPRISE_SECURITY_KEY,
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        api_key: API_KEY
+    })
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+**curl**
+```curl
+curl -X 'POST' \
+  'http://localhost:8000/enterprise/user_data' \
+  -H 'accept: application/json' \
+  -H 'enterprise-api-key: ENTERPRISE_SECURITY_KEY' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "api_key": API_KEY
+}'
+```
+
+### Sample Response
+```javascript
+{
+  "plans": [
+    {
+      "plan_name": "Basic",
+      "subscription_id": "sub_123456789",
+      "credits_total": 1000,
+      "credits_used": 500,
+      "created_at": "2023-01-01T00:00:00Z",
+      "expires_at": "2023-12-31T23:59:59Z"
+    },
+    {
+      "plan_name": "Pro",
+      "subscription_id": "sub_987654321",
+      "credits_total": 5000,
+      "credits_used": 0,
+      "created_at": "2024-01-01T00:00:00Z",
+      "expires_at": "2024-12-31T23:59:59Z"
+    }
+  ],
+  "searches_allowed": 6000,
+  "searches_used": 500,
+  "searches_remaining": 5500
 }
 ```
