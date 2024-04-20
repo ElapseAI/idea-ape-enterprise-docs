@@ -3,7 +3,7 @@
 # Read Analysis
 POST `/enterprise/analysis/read`
 
-This endpoint is used to read the analysis results for a given analysis ID. It requires an API key and an Enterprise-API-key for authorization.
+This endpoint is used to read the analysis results for a given analysis ID. It requires an API key and an Enterprise-security-key for authorization.
 
 ## Expected Input
 The expected input is a JSON object with the following properties:
@@ -29,18 +29,16 @@ The expected input is a JSON object with the following properties:
 
 **JavaScript**
 ```javascript
-const response = await fetch('http://localhost:8000/enterprise/analysis/create', {
+const response = await fetch('http://localhost:8000/enterprise/analysis/read', {
     method: 'POST',
     headers: {
         'Accept': 'application/json',
-        'enterprise-api-key': ENTERPRISE_SECURITY_KEY,
+        'enterprise-security-key': ENTERPRISE_SECURITY_KEY,
         'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-        search_query: 'pineapple pizza',
-        country: 'un',
-        date_filter: 'all',
-        api_key: API_KEY
+        api_key: API_KEY,
+        analysis_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
     })
 });
 
@@ -51,14 +49,12 @@ console.log(data);
 **curl**
 ```curl
 curl -X 'POST' \
-  'http://localhost:8000/enterprise/analysis/create' \
+  'http://localhost:8000/enterprise/analysis/read' \
   -H 'accept: application/json' \
-  -H 'enterprise-api-key: ENTERPRISE_SECURITY_KEY' \
+  -H 'enterprise-security-key: ENTERPRISE_SECURITY_KEY' \
   -H 'Content-Type: application/json' \
   -d '{
-  "search_query": "pineapple pizza",
-  "country": "un",
-  "date_filter": "all",
+  "analysis_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "api_key": API_KEY
 }'
 ```
@@ -132,7 +128,7 @@ curl -X 'POST' \
 # Create Analysis
 POST `/enterprise/analysis/create`
 
-This endpoint is used to create a new analysis based on a given search query, country, and date filter. It requires an API key and an Enterprise-API-key for authorization.
+This endpoint is used to create a new analysis based on a given search query, country, and date filter. It requires an API key and an Enterprise-security-key for authorization.
 
 ## Expected Input
 The expected input is a JSON object with the following properties:
@@ -165,7 +161,7 @@ const response = await fetch('http://localhost:8000/enterprise/analysis/create',
     method: 'POST',
     headers: {
         'Accept': 'application/json',
-        'enterprise-api-key': ENTERPRISE_SECURITY_KEY,
+        'enterprise-security-key': ENTERPRISE_SECURITY_KEY,
         'Content-Type': 'application/json'
     },
     body: JSON.stringify({
@@ -185,7 +181,7 @@ console.log(data);
 curl -X 'POST' \
   'http://localhost:8000/enterprise/analysis/create' \
   -H 'accept: application/json' \
-  -H 'enterprise-api-key: ENTERPRISE_SECURITY_KEY' \
+  -H 'enterprise-security-key: ENTERPRISE_SECURITY_KEY' \
   -H 'Content-Type: application/json' \
   -d '{
   "search_query": "pineapple pizza",
@@ -261,9 +257,9 @@ curl -X 'POST' \
 ---
 
 # Historical Searches
-POST `/enterprise/analysis/historical_searches`
+POST `/enterprise/historical_searches`
 
-This endpoint is used to retrieve the historical searches performed within a specified date range. It requires an API key and an Enterprise-API-key for authorization.
+This endpoint is used to retrieve the historical searches performed within a specified date range. It requires an API key and an Enterprise-security-key for authorization.
 
 ## Expected Input
 The expected input is a JSON object with the following properties:
@@ -295,11 +291,11 @@ The expected input is a JSON object with the following properties:
 
 **JavaScript**
 ```javascript
-const response = await fetch('http://localhost:8000/enterprise/analysis/historical_searches', {
+const response = await fetch('http://localhost:8000/enterprise/historical_searches', {
     method: 'POST',
     headers: {
         'Accept': 'application/json',
-        'enterprise-api-key': ENTERPRISE_SECURITY_KEY,
+        'enterprise-security-key': ENTERPRISE_SECURITY_KEY,
         'Content-Type': 'application/json'
     },
     body: JSON.stringify({
@@ -316,9 +312,9 @@ console.log(data);
 **curl**
 ```curl
 curl -X 'POST' \
-  'http://localhost:8000/enterprise/analysis/historical_searches' \
+  'http://localhost:8000/enterprise/historical_searches' \
   -H 'accept: application/json' \
-  -H 'enterprise-api-key: ENTERPRISE_SECURITY_KEY' \
+  -H 'enterprise-security-key: ENTERPRISE_SECURITY_KEY' \
   -H 'Content-Type: application/json' \
   -d '{
   "api_key": API_KEY,
@@ -349,7 +345,7 @@ curl -X 'POST' \
 # User Data (API credits remaining and other details )
 POST `/enterprise/user_data`
 
-This endpoint is used to retrieve the user data associated with the provided API key. It requires an API key and an Enterprise-API-key for authorization.
+This endpoint is used to retrieve the user data associated with the provided API key. It requires an API key and an Enterprise-security-key for authorization.
 
 ## Expected Input
 The expected input is a JSON object with the following property:
@@ -384,16 +380,13 @@ The expected input is a JSON object with the following property:
 
 **JavaScript**
 ```javascript
-const response = await fetch('http://localhost:8000/enterprise/user_data', {
+const response = await fetch('http://localhost:8000/enterprise/user_data?api_key=API_KEY', {
     method: 'POST',
     headers: {
         'Accept': 'application/json',
-        'enterprise-api-key': ENTERPRISE_SECURITY_KEY,
+        'enterprise-security-key': ENTERPRISE_SECURITY_KEY,
         'Content-Type': 'application/json'
     },
-    body: JSON.stringify({
-        api_key: API_KEY
-    })
 });
 
 const data = await response.json();
@@ -403,13 +396,10 @@ console.log(data);
 **curl**
 ```curl
 curl -X 'POST' \
-  'http://localhost:8000/enterprise/user_data' \
+  'http://localhost:8000/enterprise/user_data?api_key=API_KEY' \
   -H 'accept: application/json' \
-  -H 'enterprise-api-key: ENTERPRISE_SECURITY_KEY' \
-  -H 'Content-Type: application/json' \
-  -d '{
-  "api_key": API_KEY
-}'
+  -H 'enterprise-security-key: ENTERPRISE_SECURITY_KEY' \
+  -H 'Content-Type: application/json' 
 ```
 
 ### Sample Response
