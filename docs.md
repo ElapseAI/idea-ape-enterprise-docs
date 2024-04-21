@@ -510,4 +510,4 @@ curl -X 'POST' \
 ```
 
 **Postman Response**
-* ![user_data-responses](./Screenshots/user_data-responses.png)
+* ![user_data-response](./Screenshots/user_data-response.png)
