@@ -74,6 +74,8 @@ curl -X 'POST' \
 ```
 
 **Postman**
+* ![read-auth](./Screenshots/read-auth.png)
+* ![read-body](./Screenshots/read-body.png)
 
 
 ### Sample Response
@@ -138,6 +140,8 @@ curl -X 'POST' \
 }
 ```
 
+**Postman Response**
+* ![read-response](./Screenshots/read-response.png)
 
 ---
 ---
@@ -221,6 +225,10 @@ curl -X 'POST' \
 }'
 ```
 
+**Postman**
+* ![create-auth](./Screenshots/create-auth.png)
+* ![create-body](./Screenshots/create-body.png)
+
 ### Sample Response
 ```javascript
 {
@@ -282,6 +290,9 @@ curl -X 'POST' \
   ]
 }
 ```
+
+**Postman Response**
+* ![create-response](./Screenshots/create-response.png)
 
 ---
 ---
@@ -366,6 +377,10 @@ curl -X 'POST' \
 }'
 ```
 
+**Postman**
+* ![historical_searches-auth](./Screenshots/historical_searches-auth.png)
+* ![historical_searches-body](./Screenshots/historical_searches-body.png)
+
 ### Sample Response
 ```javascript
 [
@@ -383,6 +398,10 @@ curl -X 'POST' \
   }
 ]
 ```
+
+**Postman Response**
+* ![historical_searches-response](./Screenshots/historical_searches-response.png)
+
 
 
 # User Data (API credits remaining and other details )
@@ -458,6 +477,11 @@ curl -X 'POST' \
   -H 'Content-Type: application/json' 
 ```
 
+**Postman**
+* ![user_data-auth](./Screenshots/user_data-auth.png)
+* ![user_data-body](./Screenshots/user_data-body.png)
+
+
 ### Sample Response
 ```javascript
 {
@@ -484,3 +508,6 @@ curl -X 'POST' \
   "searches_remaining": 5500
 }
 ```
+
+**Postman Response**
+* ![user_data-responses](./Screenshots/user_data-responses.png)
