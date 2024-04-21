@@ -1,0 +1,1 @@
+DateFilterLiteral = Literal["all", "last_year", "last_month"]

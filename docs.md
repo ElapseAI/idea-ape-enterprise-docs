@@ -155,8 +155,8 @@ This endpoint is used to create a new analysis based on a given search query, co
 The expected input is a JSON object with the following properties:
 
 - `search_query`: A string that represents the search query for the analysis.
-- `country`: A string that represents the country filter for the analysis. It should be one of the values defined in the `CountriesLiteral` enum.
-- `date_filter`: A string that represents the date filter for the analysis. It should be one of the values defined in the `DateFilterLiteral` enum.
+- `country`: A string that represents the country filter for the analysis. It should be one of the values defined in the [`CountriesLiteral`](./data/countrties_literal.txt) enum.
+- `date_filter`: A string that represents the date filter for the analysis. It should be one of the values defined in the [`DateFilterLiteral`](./data//date_filter_literal.txt) enum.
 - `api_key`: A string that represents the API key of the enterprise user.
 
 ### Sample Input
