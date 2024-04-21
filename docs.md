@@ -29,27 +29,41 @@ The expected input is a JSON object with the following properties:
 
 **JavaScript**
 ```javascript
-const response = await fetch('http://localhost:8000/enterprise/analysis/read', {
-    method: 'POST',
-    headers: {
-        'Accept': 'application/json',
-        'enterprise-security-key': ENTERPRISE_SECURITY_KEY,
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-        api_key: API_KEY,
-        analysis_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-    })
-});
+const apiKey = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
+const enterpriseSecurityKey = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
+const analysisId = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
 
-const data = await response.json();
-console.log(data);
+async function readAnalysis() {
+    fetch('https://idea-validation-backend-production.up.railway.app/enterprise/analysis/read', {
+        method: 'POST',
+        headers: {
+            'accept': 'application/json',
+            'enterprise-security-key': enterpriseSecurityKey,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            analysis_id: analysisId,
+            api_key: apiKey,
+        })
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Handle the response data
+            console.log(data);
+        })
+        .catch(error => {
+            // Handle any errors
+            console.error('Error:', error);
+        });
+}
+
+readAnalysis();
 ```
 
 **curl**
 ```curl
 curl -X 'POST' \
-  'http://localhost:8000/enterprise/analysis/read' \
+  'https://idea-validation-backend-production.up.railway.app/enterprise/analysis/read' \
   -H 'accept: application/json' \
   -H 'enterprise-security-key: ENTERPRISE_SECURITY_KEY' \
   -H 'Content-Type: application/json' \
@@ -58,6 +72,9 @@ curl -X 'POST' \
   "api_key": API_KEY
 }'
 ```
+
+**Postman**
+
 
 ### Sample Response
 ```javascript
@@ -142,7 +159,7 @@ The expected input is a JSON object with the following properties:
 ```javascript
 {
   "search_query": "pineapple pizza",
-  "country": "un",
+  "country": "us",
   "date_filter": "all",
   "api_key": "your_api_key_here"
 }
@@ -157,35 +174,48 @@ The expected input is a JSON object with the following properties:
 
 **JavaScript**
 ```javascript
-const response = await fetch('http://localhost:8000/enterprise/analysis/create', {
-    method: 'POST',
-    headers: {
-        'Accept': 'application/json',
-        'enterprise-security-key': ENTERPRISE_SECURITY_KEY,
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-        search_query: 'pineapple pizza',
-        country: 'un',
-        date_filter: 'all',
-        api_key: API_KEY
-    })
-});
+const apiKey = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
+const enterpriseSecurityKey = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
 
-const data = await response.json();
-console.log(data);
+async function createAnalysis() {
+    fetch('https://idea-validation-backend-production.up.railway.app/enterprise/analysis/create', {
+        method: 'POST',
+        headers: {
+            'accept': 'application/json',
+            'enterprise-security-key': enterpriseSecurityKey,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            search_query: 'pineapple pizza',
+            country: 'us',
+            date_filter: 'all',
+            api_key: apiKey,
+        })
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Handle the response data
+            console.log(data);
+        })
+        .catch(error => {
+            // Handle any errors
+            console.error('Error:', error);
+        });
+}
+
+createAnalysis();
 ```
 
 **curl**
 ```curl
 curl -X 'POST' \
-  'http://localhost:8000/enterprise/analysis/create' \
+  'https://idea-validation-backend-production.up.railway.app/enterprise/analysis/create' \
   -H 'accept: application/json' \
   -H 'enterprise-security-key: ENTERPRISE_SECURITY_KEY' \
   -H 'Content-Type: application/json' \
   -d '{
   "search_query": "pineapple pizza",
-  "country": "un",
+  "country": "us",
   "date_filter": "all",
   "api_key": API_KEY
 }'
@@ -291,35 +321,48 @@ The expected input is a JSON object with the following properties:
 
 **JavaScript**
 ```javascript
-const response = await fetch('http://localhost:8000/enterprise/historical_searches', {
-    method: 'POST',
-    headers: {
-        'Accept': 'application/json',
-        'enterprise-security-key': ENTERPRISE_SECURITY_KEY,
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-        api_key: API_KEY,
-        start_date: "2023-01-01T00:00:00Z",
-        end_date: "2023-12-31T23:59:59Z"
-    })
-});
+const apiKey = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
+const enterpriseSecurityKey = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
 
-const data = await response.json();
-console.log(data);
+async function readAnalysis() {
+    fetch('https://idea-validation-backend-production.up.railway.app/enterprise/historical_searches', {
+        method: 'POST',
+        headers: {
+            'accept': 'application/json',
+            'enterprise-security-key': enterpriseSecurityKey,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            api_key: apiKey,
+            start_date: "2023-01-01T00:00:00Z",
+            end_date: "2024-12-31T23:59:59Z"
+        })
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Handle the response data
+            console.log(data);
+        })
+        .catch(error => {
+            // Handle any errors
+            console.error('Error:', error);
+        });
+}
+
+readAnalysis();
 ```
 
 **curl**
 ```curl
 curl -X 'POST' \
-  'http://localhost:8000/enterprise/historical_searches' \
+  'https://idea-validation-backend-production.up.railway.app/enterprise/historical_searches' \
   -H 'accept: application/json' \
   -H 'enterprise-security-key: ENTERPRISE_SECURITY_KEY' \
   -H 'Content-Type: application/json' \
   -d '{
   "api_key": API_KEY,
   "start_date": "2023-01-01T00:00:00Z",
-  "end_date": "2023-12-31T23:59:59Z"
+  "end_date": "2024-12-31T23:59:59Z"
 }'
 ```
 
@@ -380,23 +423,36 @@ The expected input is a JSON object with the following property:
 
 **JavaScript**
 ```javascript
-const response = await fetch('http://localhost:8000/enterprise/user_data?api_key=API_KEY', {
-    method: 'POST',
-    headers: {
-        'Accept': 'application/json',
-        'enterprise-security-key': ENTERPRISE_SECURITY_KEY,
-        'Content-Type': 'application/json'
-    },
-});
+const apiKey = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
+const enterpriseSecurityKey = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
 
-const data = await response.json();
-console.log(data);
+async function fetchUserData() {
+    fetch('https://idea-validation-backend-production.up.railway.app/enterprise/user_data?api_key=' + apiKey, {
+        method: 'POST',
+        headers: {
+            'accept': 'application/json',
+            'enterprise-security-key': enterpriseSecurityKey,
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Handle the response data
+            console.log(data);
+        })
+        .catch(error => {
+            // Handle any errors
+            console.error('Error:', error);
+        });
+}
+
+fetchUserData();
 ```
 
 **curl**
 ```curl
 curl -X 'POST' \
-  'http://localhost:8000/enterprise/user_data?api_key=API_KEY' \
+  'https://idea-validation-backend-production.up.railway.app/enterprise/user_data?api_key=API_KEY' \
   -H 'accept: application/json' \
   -H 'enterprise-security-key: ENTERPRISE_SECURITY_KEY' \
   -H 'Content-Type: application/json' 
