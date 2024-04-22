@@ -455,8 +455,8 @@ curl -X 'POST' \
 
 **Postman**
 * ![user_data-auth](./Screenshots/user_data-auth.png)
-* ![user_data-body](./Screenshots/user_data-body.png)
 
+> Body is empty for `/enterprise/user_data`
 
 ### Sample Response
 ```javascript
