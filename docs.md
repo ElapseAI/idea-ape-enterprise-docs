@@ -8,14 +8,12 @@ This endpoint is used to read the analysis results for a given analysis ID. It r
 ## Expected Input
 The expected input is a JSON object with the following properties:
 
-- `api_key`: A string that represents the API key of the enterprise user.
 - `analysis_id`: A string that represents the ID of the analysis to be read.
 
 ### Sample Input
 ```javascript
 {
-  "analysis_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "api_key": "string"
+  "analysis_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
 }
 ```
 
@@ -25,12 +23,11 @@ The expected input is a JSON object with the following properties:
 - If the analysis ID is not found, a 404 Analysis not found error will be returned.
 
 ### Sample Request 
-> Make sure to add `enterprise-security-key` in the headers along with api_key in the request body.
+> Make sure to add `enterprise-security-key` in the headers.
 
 **JavaScript**
 ```javascript
-const apiKey = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
-const enterpriseSecurityKey = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
+const ENTERPRISE_SECURITY_KEY = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
 const analysisId = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
 
 async function readAnalysis() {
@@ -38,12 +35,11 @@ async function readAnalysis() {
         method: 'POST',
         headers: {
             'accept': 'application/json',
-            'enterprise-security-key': enterpriseSecurityKey,
+            'enterprise-security-key': ENTERPRISE_SECURITY_KEY,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
             analysis_id: analysisId,
-            api_key: apiKey,
         })
     })
         .then(response => response.json())
@@ -65,11 +61,10 @@ readAnalysis();
 curl -X 'POST' \
   'https://idea-validation-backend-production.up.railway.app/enterprise/analysis/read' \
   -H 'accept: application/json' \
-  -H 'enterprise-security-key: ENTERPRISE_SECURITY_KEY' \
+  -H 'enterprise-security-key: API_KEY' \
   -H 'Content-Type: application/json' \
   -d '{
-  "analysis_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "api_key": API_KEY
+  "analysis_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
 }'
 ```
 
@@ -157,7 +152,6 @@ The expected input is a JSON object with the following properties:
 - `search_query`: A string that represents the search query for the analysis.
 - `country`: A string that represents the country filter for the analysis. It should be one of the values defined in the [`CountriesLiteral`](./data/countrties_literal.txt) enum.
 - `date_filter`: A string that represents the date filter for the analysis. It should be one of the values defined in the [`DateFilterLiteral`](./data//date_filter_literal.txt) enum.
-- `api_key`: A string that represents the API key of the enterprise user.
 
 ### Sample Input
 ```javascript
@@ -165,7 +159,6 @@ The expected input is a JSON object with the following properties:
   "search_query": "pineapple pizza",
   "country": "us",
   "date_filter": "all",
-  "api_key": "your_api_key_here"
 }
 ```
 
@@ -178,22 +171,20 @@ The expected input is a JSON object with the following properties:
 
 **JavaScript**
 ```javascript
-const apiKey = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
-const enterpriseSecurityKey = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
+const ENTERPRISE_SECURITY_KEY = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
 
 async function createAnalysis() {
     fetch('https://idea-validation-backend-production.up.railway.app/enterprise/analysis/create', {
         method: 'POST',
         headers: {
             'accept': 'application/json',
-            'enterprise-security-key': enterpriseSecurityKey,
+            'enterprise-security-key': ENTERPRISE_SECURITY_KEY,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
             search_query: 'pineapple pizza',
             country: 'us',
             date_filter: 'all',
-            api_key: apiKey,
         })
     })
         .then(response => response.json())
@@ -215,13 +206,12 @@ createAnalysis();
 curl -X 'POST' \
   'https://idea-validation-backend-production.up.railway.app/enterprise/analysis/create' \
   -H 'accept: application/json' \
-  -H 'enterprise-security-key: ENTERPRISE_SECURITY_KEY' \
+  -H 'enterprise-security-key: API_KEY' \
   -H 'Content-Type: application/json' \
   -d '{
   "search_query": "pineapple pizza",
   "country": "us",
-  "date_filter": "all",
-  "api_key": API_KEY
+  "date_filter": "all"
 }'
 ```
 
@@ -305,14 +295,12 @@ This endpoint is used to retrieve the historical searches performed within a spe
 ## Expected Input
 The expected input is a JSON object with the following properties:
 
-- `api_key`: A string that represents the API key of the enterprise user.
 - `start_date`: A string that represents the start date of the date range in ISO 8601 format (e.g., "2023-01-01T00:00:00Z").
 - `end_date`: A string that represents the end date of the date range in ISO 8601 format (e.g., "2023-12-31T23:59:59Z").
 
 ### Sample Input
 ```javascript
 {
-  "api_key": "your_api_key_here",
   "start_date": "2023-01-01T00:00:00Z",
   "end_date": "2023-12-31T23:59:59Z"
 }
@@ -328,23 +316,21 @@ The expected input is a JSON object with the following properties:
 - If the API key is not found in the database, a 403 Unauthorized user error will be returned.
 
 ### Sample Request
-> Make sure to add enterprise-security-key in the headers along with api_key in the request body.
+> Make sure to add enterprise-security-key in the headers.
 
 **JavaScript**
 ```javascript
-const apiKey = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
-const enterpriseSecurityKey = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
+const ENTERPRISE_SECURITY_KEY = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
 
 async function readAnalysis() {
     fetch('https://idea-validation-backend-production.up.railway.app/enterprise/historical_searches', {
         method: 'POST',
         headers: {
             'accept': 'application/json',
-            'enterprise-security-key': enterpriseSecurityKey,
+            'enterprise-security-key': ENTERPRISE_SECURITY_KEY,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            api_key: apiKey,
             start_date: "2023-01-01T00:00:00Z",
             end_date: "2024-12-31T23:59:59Z"
         })
@@ -368,10 +354,9 @@ readAnalysis();
 curl -X 'POST' \
   'https://idea-validation-backend-production.up.railway.app/enterprise/historical_searches' \
   -H 'accept: application/json' \
-  -H 'enterprise-security-key: ENTERPRISE_SECURITY_KEY' \
+  -H 'enterprise-security-key: API_KEY' \
   -H 'Content-Type: application/json' \
   -d '{
-  "api_key": API_KEY,
   "start_date": "2023-01-01T00:00:00Z",
   "end_date": "2024-12-31T23:59:59Z"
 }'
@@ -410,16 +395,8 @@ POST `/enterprise/user_data`
 This endpoint is used to retrieve the user data associated with the provided API key. It requires an API key and an Enterprise-security-key for authorization.
 
 ## Expected Input
-The expected input is a JSON object with the following property:
+Nothing is needed as input, based on the `enterprise-security-key` sent in the headers the details will be fetched.
 
-- 'api_key': A string that represents the API key of the enterprise user.
-
-### Sample Input
-```javascript
-{
-  "api_key": "your_api_key_here"
-}
-```
 
 ## Expected Output
 - The expected output is an `EnterpriseUserData` object.
@@ -438,19 +415,18 @@ The expected input is a JSON object with the following property:
 - If the API key is not found in the database, a 403 Unauthorized user error will be returned.
 
 ### Sample Request
-> Make sure to add enterprise-security-key in the headers along with api_key in the request body.
+> Make sure to add enterprise-security-key in the headers.
 
 **JavaScript**
 ```javascript
-const apiKey = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
-const enterpriseSecurityKey = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
+const ENTERPRISE_SECURITY_KEY = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
 
 async function fetchUserData() {
-    fetch('https://idea-validation-backend-production.up.railway.app/enterprise/user_data?api_key=' + apiKey, {
+    fetch('https://idea-validation-backend-production.up.railway.app/enterprise/user_data', {
         method: 'POST',
         headers: {
             'accept': 'application/json',
-            'enterprise-security-key': enterpriseSecurityKey,
+            'enterprise-security-key': ENTERPRISE_SECURITY_KEY,
             'Content-Type': 'application/json'
         }
     })
@@ -471,9 +447,9 @@ fetchUserData();
 **curl**
 ```curl
 curl -X 'POST' \
-  'https://idea-validation-backend-production.up.railway.app/enterprise/user_data?api_key=API_KEY' \
+  'https://idea-validation-backend-production.up.railway.app/enterprise/user_data' \
   -H 'accept: application/json' \
-  -H 'enterprise-security-key: ENTERPRISE_SECURITY_KEY' \
+  -H 'enterprise-security-key: API_KEY' \
   -H 'Content-Type: application/json' 
 ```
 

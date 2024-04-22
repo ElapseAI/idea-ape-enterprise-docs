@@ -1,5 +1,4 @@
-const apiKey = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
-const enterpriseSecurityKey = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
+const ENTERPRISE_SECURITY_KEY = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
 const analysisId = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
 
 async function readAnalysis() {
@@ -7,12 +6,11 @@ async function readAnalysis() {
         method: 'POST',
         headers: {
             'accept': 'application/json',
-            'enterprise-security-key': enterpriseSecurityKey,
+            'enterprise-security-key': ENTERPRISE_SECURITY_KEY,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
             analysis_id: analysisId,
-            api_key: apiKey,
         })
     })
         .then(response => response.json())
